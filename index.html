@@ -3,10 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Rock Paper Scissors</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; margin-top: 50px; }
+        button { padding: 10px 20px; margin: 10px; font-size: 16px; cursor: pointer; }
+        #result, #score, #finalResult { margin-top: 20px; font-size: 18px; }
+    </style>
 </head>
-    <script src="rpsjavascript.js"> </script>
 <body>
-    
+    <h1>Rock Paper Scissors</h1>
+    <div>
+        <button onclick="playRound('rock')">Rock</button>
+        <button onclick="playRound('paper')">Paper</button>
+        <button onclick="playRound('scissors')">Scissors</button>
+    </div>
+
+    <div id="result"></div>
+    <div id="score">Human: 0 | Computer: 0</div>
+    <div id="finalResult"></div>
+
+    <script>
+        let humanScore = 0;
+        let compScore = 0;
+
+        function getCompChoice() {
+            const choices = ["rock", "paper", "scissors"];
+            return choices[Math.floor(Math.random() * 3)];
+        }
+
+        function playRound(humanChoice) {
+            if (humanScore >= 5 || compScore >= 5) return;
+
+            const compChoice = getCompChoice();
+            let result = "";
+
+            if (humanChoice === compChoice) {
+                result = `It's a tie! Both chose ${humanChoice}.`;
+            } else if (
+                (humanChoice === "rock" && compChoice === "scissors") ||
+                (humanChoice === "paper" && compChoice === "rock") ||
+                (humanChoice === "scissors" && compChoice === "paper")
+            ) {
+                humanScore++;
+                result = `You win! ${humanChoice} beats ${compChoice}.`;
+            } else {
+                compScore++;
+                result = `Computer wins! ${compChoice} beats ${humanChoice}.`;
+            }
+
+            document.getElementById("result").innerText = result;
+            document.getElementById("score").innerText = `Human: ${humanScore} | Computer: ${compScore}`;
+
+            if (humanScore === 5 || compScore === 5) {
+                const finalMessage = humanScore === 5 ? "Congratulations! You are the final winner!" : "Computer wins the game!";
+                document.getElementById("finalResult").innerText = finalMessage;
+            }
+        }
+    </script>
 </body>
 </html>
